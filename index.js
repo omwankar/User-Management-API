@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
 const app = express();
@@ -35,31 +33,7 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'User Management API',
-      version: '1.0.0',
-      description: 'API for managing users with authentication and authorization',
-    },
-    servers: [{ url: 'http://localhost:3000' }],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT',
-        },
-      },
-    },
-    security: [{ bearerAuth: [] }],
-  },
-  apis: ['./index.js'],
-};
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
